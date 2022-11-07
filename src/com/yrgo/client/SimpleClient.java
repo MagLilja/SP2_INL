@@ -1,15 +1,41 @@
 package com.yrgo.client;
 
+import com.yrgo.domain.Action;
+import com.yrgo.domain.Call;
+import com.yrgo.services.calls.CallHandlingService;
 import com.yrgo.services.customers.CustomerManagementService;
+import com.yrgo.services.customers.CustomerNotFoundException;
+import com.yrgo.services.diary.DiaryManagementService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.*;
 
 public class SimpleClient {
 
     public static void main(String[] args) {
-        var container = new ClassPathXmlApplicationContext("application.xml");
-        CustomerManagementService service = container.getBean("customerManagementService", CustomerManagementService.class);
-        service.getAllCustomers().forEach(System.out::println);
+        ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
 
+        DiaryManagementService diaryService = container.getBean(DiaryManagementService.class);
+        CallHandlingService callService = container.getBean(CallHandlingService.class);
+
+        Call newCall = new Call("Dom called from Twin Peaks Company");
+
+        List<Action> actions = new ArrayList<Action>();
+        actions.add(new Action("Call back Dom as soon as possible for feedback",
+                new GregorianCalendar(2019, Calendar.DECEMBER, 10), "user"));
+        actions.add(new Action("Check if Dom called again",
+                new GregorianCalendar(2019, Calendar.DECEMBER, 11), "user"));
+
+        try {
+            callService.recordCall("NV10", newCall, actions);
+        } catch (CustomerNotFoundException e) {
+            System.err.println("This customer does not exist.");
+        }
+
+        System.out.println("Here are the actions:");
+        diaryService.getAllIncompleteActions("user").forEach(System.out::println);
+
+        container.close();
     }
 
 }

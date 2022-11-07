@@ -3,6 +3,7 @@ package com.yrgo.services.diary;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.yrgo.domain.Action;
 
@@ -12,16 +13,15 @@ public class DiaryManagementServiceMockImpl implements DiaryManagementService {
 
 	@Override
 	public void recordAction(Action action) {
-		// TODO Auto-generated method stub
+		allActions.add(action);
 
 	}
 
-	//Hint: 
-	//Create a list<Action>
-	//In the for each loop going through the list use this condition: "if(action.getOwningUser().equals(requiredUser) && !action.isComplete())" to add a new action to the list. 
 	public List<Action> getAllIncompleteActions(String requiredUser) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return allActions.stream()
+				.filter((a) -> a.getOwningUser().equals(requiredUser) && !a.isComplete())
+				.collect(Collectors.toList());
 	}
 
 }
