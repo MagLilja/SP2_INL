@@ -1,5 +1,6 @@
 package com.yrgo.domain;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ public class Action {
 	private String details;
 
 
-	private Calendar requiredBy;
+	private LocalDate requiredBy;
 
 
 	private String owningUser;
@@ -26,14 +27,14 @@ public class Action {
 	private boolean complete;
 
 
-	public Action(String details, Calendar requiredBy, String owningUser){
+	public Action(String details, LocalDate requiredBy, String owningUser){
 		this.details = details;
 		this.requiredBy = requiredBy;
 		this.owningUser = owningUser;
 		this.complete = false;
 	}
 
-	public Action(String actionId, String details, Calendar requiredBy, String owningUser, boolean complete){
+	public Action(String actionId, String details, LocalDate requiredBy, String owningUser, boolean complete){
 		this.details = details;
 		this.requiredBy = requiredBy;
 		this.owningUser = owningUser;
@@ -52,7 +53,7 @@ public class Action {
 
 
 	public String toString()	{
-		return "Action for " + this.owningUser + ": " + this.details + ", required by " + this.requiredBy.getTime();
+		return "Action for " + this.owningUser + ": " + this.details + ", required by " + this.requiredBy.toString();
 	}
 
 
@@ -77,11 +78,11 @@ public class Action {
 		this.details = details;
 	}
 
-	public Calendar getRequiredBy() {
+	public LocalDate getRequiredBy() {
 		return requiredBy;
 	}
 
-	public void setRequiredBy(Calendar requiredBy) {
+	public void setRequiredBy(LocalDate requiredBy) {
 		this.requiredBy = requiredBy;
 	}
 

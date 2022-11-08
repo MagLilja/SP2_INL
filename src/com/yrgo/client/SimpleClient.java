@@ -8,6 +8,9 @@ import com.yrgo.services.customers.CustomerNotFoundException;
 import com.yrgo.services.diary.DiaryManagementService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.*;
 
 public class SimpleClient {
@@ -21,10 +24,12 @@ public class SimpleClient {
         Call newCall = new Call("Dom called from Twin Peaks Company");
 
         List<Action> actions = new ArrayList<Action>();
+        GregorianCalendar gregorianCalendar = new GregorianCalendar(2019, Calendar.DECEMBER, 10);
         actions.add(new Action("Call back Dom as soon as possible for feedback",
-                new GregorianCalendar(2019, Calendar.DECEMBER, 10), "user"));
+                LocalDate.of(2019,Month.DECEMBER,10), "user"));
         actions.add(new Action("Check if Dom called again",
-                new GregorianCalendar(2019, Calendar.DECEMBER, 11), "user"));
+                LocalDate.of(2019,Month.DECEMBER,11)
+, "user"));
 
         try {
             callService.recordCall("NV10", newCall, actions);
