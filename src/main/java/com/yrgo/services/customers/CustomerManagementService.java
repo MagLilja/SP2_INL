@@ -11,10 +11,10 @@ public interface CustomerManagementService {
 	public void newCustomer(Customer newCustomer);
 
 
-	public void updateCustomer(Customer changedCustomer);
+	public void updateCustomer(Customer changedCustomer) throws CustomerNotFoundException;
 
 
-	public void deleteCustomer(Customer oldCustomer);
+	public void deleteCustomer(Customer oldCustomer) throws CustomerNotFoundException;
 
 
 	public Customer findCustomerById(String customerId) throws CustomerNotFoundException;
