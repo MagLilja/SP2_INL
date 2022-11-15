@@ -5,9 +5,9 @@
 
     <!-- Path: src/application.xml -->
     <!-- Datasources: -->
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
-        <property name="url" value="jdbc:hsql:file:database.dat;shutdown=true"/>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" >
+        <property name="driverClassName" value="org.hsqldb.jdbc.JDBCDriver"/>
+        <property name="url" value="jdbc:hsqldb:file:database.dat;shutdown=true"/>
         <property name="username" value="sa"/>
         <property name="password" value=""/>
     </bean>
@@ -16,13 +16,16 @@
     </bean>
 
     <!-- DAOs: -->
-    <bean id="customerDao" class="com.yrgo.dataaccess.CustomerDaoJdbcTemplateImpl">
+    <bean id="customerDao" class="com.yrgo.dataaccess.CustomerDaoJdbcTemplateImpl" init-method="createTable">
         <constructor-arg ref="jdbcTemplate"/>
     </bean>
 
 
+
+
     <!-- Services: -->
     <bean id="customerManagementService" class="com.yrgo.services.customers.CustomerManagementServiceProductionImpl">
+        <constructor-arg ref="customerDao"/>
     </bean>
 
     <bean id="diaryManagementService" class="com.yrgo.services.diary.DiaryManagementServiceMockImpl">

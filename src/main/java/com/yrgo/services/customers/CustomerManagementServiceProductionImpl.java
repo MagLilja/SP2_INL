@@ -4,12 +4,14 @@ import com.yrgo.dataaccess.CustomerDao;
 import com.yrgo.dataaccess.RecordNotFoundException;
 import com.yrgo.domain.Call;
 import com.yrgo.domain.Customer;
+import org.springframework.dao.DataAccessException;
 
 import java.util.List;
 
 public class CustomerManagementServiceProductionImpl implements CustomerManagementService {
 
     private CustomerDao customerDao;
+    String customer_not_found = "Customer not found";
 
     public CustomerManagementServiceProductionImpl(CustomerDao customerDao) {
         this.customerDao = customerDao;
@@ -26,6 +28,8 @@ public class CustomerManagementServiceProductionImpl implements CustomerManageme
         try {
             customerDao.update(changedCustomer);
         } catch (RecordNotFoundException e) {
+
+            System.err.println(customer_not_found);
             throw new CustomerNotFoundException();
         }
 
@@ -36,6 +40,7 @@ public class CustomerManagementServiceProductionImpl implements CustomerManageme
         try {
             customerDao.delete(oldCustomer);
         } catch (RecordNotFoundException e) {
+            System.err.println(customer_not_found);
             throw new CustomerNotFoundException();
         }
 
@@ -46,6 +51,7 @@ public class CustomerManagementServiceProductionImpl implements CustomerManageme
         try {
             return customerDao.getById(customerId);
         } catch (RecordNotFoundException e) {
+            System.err.println(customer_not_found);
             throw new CustomerNotFoundException();
         }
     }
@@ -73,7 +79,7 @@ public class CustomerManagementServiceProductionImpl implements CustomerManageme
     public void recordCall(String customerId, Call callDetails) throws CustomerNotFoundException {
         try {
             customerDao.addCall(callDetails, customerId);
-        } catch (RecordNotFoundException e) {
+        } catch (DataAccessException e) {
             throw new CustomerNotFoundException();
         }
 

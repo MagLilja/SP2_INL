@@ -2,6 +2,7 @@ package com.yrgo.dataaccess;
 
 import com.yrgo.domain.Call;
 import com.yrgo.domain.Customer;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -19,14 +20,13 @@ public class CustomerDaoJdbcTemplateImpl implements CustomerDao, DaoInterface {
 
     @Override
     public void create(Customer customer) {
-        String INSERT_SQL = "INSERT INTO customer (id, companyName, email, telephone, notes, calls) VALUES (?, ?, ?, ?,?,?)";
+        String INSERT_SQL = "INSERT INTO CUSTOMER (CUSTOMER_ID, COMPANY_NAME, EMAIL, TELEPHONE, NOTES) VALUES (?,?,?,?,?)";
         jdbcTemplate.update(INSERT_SQL,
                 customer.getCustomerId(),
                 customer.getCompanyName(),
                 customer.getEmail(),
                 customer.getTelephone(),
-                customer.getNotes(),
-                customer.getCalls());
+                customer.getNotes());
     }
 
 
@@ -83,7 +83,7 @@ public class CustomerDaoJdbcTemplateImpl implements CustomerDao, DaoInterface {
     }
 
     @Override
-    public void addCall(Call newCall, String customerId) throws RecordNotFoundException {
+    public void addCall(Call newCall, String customerId) throws DataAccessException {
         String INSERT_CALL_SQL = """
                 INSERT INTO TBL_CALL(NOTES, TIME_AND_DATE, CUSTOMER_ID) VALUES (?, ?, ?)
                 """;
@@ -94,15 +94,21 @@ public class CustomerDaoJdbcTemplateImpl implements CustomerDao, DaoInterface {
     public void createTable() {
 
         String CREATE_TABLE_CUSTOMER = """
-                CREATE TABLE CUSTOMER(CUSTOMER_ID VARCHAR(20),
-                COMPANY_NAME VARCHAR(50), EMAIL VARCHAR(50), TELEPHONE
-                VARCHAR(20), NOTES VARCHAR(255))
+                CREATE TABLE CUSTOMER(
+                CUSTOMER_ID VARCHAR(20) PRIMARY KEY ,
+                COMPANY_NAME VARCHAR(50), 
+                EMAIL VARCHAR(50), 
+                TELEPHONE VARCHAR(20), 
+                NOTES VARCHAR(255))
                 """;
 
         String CREATE_TABLE_CALL = """
-                CREATE TABLE TBL_CALL(NOTES VARCHAR(255),
-                TIME_AND_DATE DATE, CUSTOMER_ID VARCHAR(20))
+                CREATE TABLE TBL_CALL(
+                NOTES VARCHAR(255),
+                TIME_AND_DATE DATE, 
+                CUSTOMER_ID VARCHAR(20) REFERENCES CUSTOMER(CUSTOMER_ID))
                 """;
+
 
         this.jdbcTemplate.execute(CREATE_TABLE_CUSTOMER);
         this.jdbcTemplate.execute(CREATE_TABLE_CALL);
@@ -118,8 +124,7 @@ public class CustomerDaoJdbcTemplateImpl implements CustomerDao, DaoInterface {
             String email = rs.getString(3);
             String telephone = rs.getString(4);
             String notes = rs.getString(5);
-
-            returnn new Customer(id, companyName, email, telephone, notes);
+            return new Customer(id, companyName, email, telephone, notes);
         }
     }
 

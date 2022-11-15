@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yrgo.domain.Call;
 import com.yrgo.domain.Customer;
+import org.springframework.dao.DataAccessException;
 
 public interface CustomerDao {
 
@@ -23,5 +24,5 @@ public interface CustomerDao {
 	public Customer getFullCustomerDetail(String customerId) throws RecordNotFoundException;
 
 
-	public void addCall (Call newCall, String customerId) throws RecordNotFoundException;
+	public void addCall (Call newCall, String customerId) throws DataAccessException;
 }
