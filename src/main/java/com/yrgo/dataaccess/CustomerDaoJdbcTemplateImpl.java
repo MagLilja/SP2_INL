@@ -119,7 +119,7 @@ public class CustomerDaoJdbcTemplateImpl implements CustomerDao, DaoInterface {
             String telephone = rs.getString(4);
             String notes = rs.getString(5);
 
-            return new Customer(id, companyName, email, telephone, notes);
+            returnn new Customer(id, companyName, email, telephone, notes);
         }
     }
 
