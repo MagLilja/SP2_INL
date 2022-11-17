@@ -20,13 +20,12 @@ public class PerformanceTimingAdvice {
         finally {
             long endTime = System.nanoTime();
             long diff = endTime - startTime;
-            long timeToExecuteMethod = diff / 1000000;;
+            long timeToExecuteMethod = diff / 1000000;
+            ;
 
-            System.out.printf("The method %s from the class %s took %d ms to execute \n", method.getSignature().getName(),method.getSignature().getDeclaringType(), timeToExecuteMethod);
+            System.out.printf("The method %s from the class %s took %d ms to execute \n", method.getSignature().getName(), method.getSignature().getDeclaringType(), timeToExecuteMethod);
         }
 
     }
-
-    ;
 
 }
