@@ -5,10 +5,12 @@ import com.yrgo.domain.Call;
 import com.yrgo.services.customers.CustomerManagementService;
 import com.yrgo.services.customers.CustomerNotFoundException;
 import com.yrgo.services.diary.DiaryManagementService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
-
+@Transactional
+@Service
 public class CallHandlingServiceImpl implements CallHandlingService {
     private CustomerManagementService customerManagementService;
     private DiaryManagementService diaryManagementService;

@@ -15,7 +15,7 @@ import java.util.List;
 public class SimpleClient {
 
     public static void main(String[] args) {
-        try (ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml")) {
+        try (ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application_annotation.xml")) {
 
             CustomerManagementService customerService = container.getBean(CustomerManagementService.class);
             CallHandlingService callService = container.getBean(CallHandlingService.class);
