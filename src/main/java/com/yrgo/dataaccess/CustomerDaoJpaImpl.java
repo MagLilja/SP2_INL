@@ -22,7 +22,9 @@ public class CustomerDaoJpaImpl implements CustomerDao {
 
     @Override
     public void create(Customer customer) {
-        em.persist(customer);
+
+            em.persist(customer);
+
     }
 
 
