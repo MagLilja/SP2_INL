@@ -9,6 +9,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration({"/other_tiers.xml", "/application_test.xml"})
@@ -32,9 +33,20 @@ class CustomerManagementServiceProductionImplTest {
     }
 
     @Test
-    public void testFindingCustomerById() {
+    public void testFindingCustomerById()  {
 
-            // arrange
+        // arrange
+        Customer customer = new Customer("CS03939", "Acme", "Good Customer");
+        customerManagementService.newCustomer(customer);
+
+        // act
+        try {
+            Customer foundCustomer = customerManagementService.findCustomerById("CS03939");
+            assertThat(foundCustomer).isEqualTo(customer);
+        } catch (CustomerNotFoundException e) {
+            fail("CustomerNotFoundException should not be thrown");
+        }
+
     }
 
 }
